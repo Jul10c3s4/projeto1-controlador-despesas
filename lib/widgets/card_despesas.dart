@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:intl/intl.dart';
 
 class CardDespesas extends StatefulWidget {
   final Despesas despesa;
@@ -37,6 +39,20 @@ class _CardDespesasState extends State<CardDespesas> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        IconButton(onPressed: () async{
+                          despesas.data = await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(2022),
+                              lastDate: DateTime(2024),
+                              locale: Locale("pt", "BR"),
+                          );
+                        }, icon: Icon(Icons.date_range))
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
                         Text(
                           despesas.descricao,
                           style: const TextStyle(
@@ -62,6 +78,15 @@ class _CardDespesasState extends State<CardDespesas> {
                         )
                       ],
                     ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    /*Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(DateFormat('dd/MM/yyyy').format(despesas.dateText)),
+                      ],
+                    ),*/
                     SizedBox(height: 5,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -70,6 +95,7 @@ class _CardDespesasState extends State<CardDespesas> {
                           onPressed: () {
                             setState(() {
                               despesas.status = true;
+                              print(despesas.data);
                             });
                           },
                           child: const Text(
