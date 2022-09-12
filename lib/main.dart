@@ -1,3 +1,4 @@
+import 'package:controlador_despesas/domain/despesas.dart';
 import 'package:controlador_despesas/pages/adicionardespesa.dart';
 import 'package:controlador_despesas/pages/homepage.dart';
 import 'package:controlador_despesas/pages/splash_screen.dart';

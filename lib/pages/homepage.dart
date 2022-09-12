@@ -14,35 +14,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int indexselected = 0;
 
-
-  Despesas desp1 = new Despesas(
-    descricao: "Conta de água",
-    valor: 300,
-  );
-
-  Despesas desp2 = new Despesas(
-    descricao: "Conta de Luz",
-    valor: 200,
-  );
-
-  Despesas desp3 = new Despesas(
-    descricao: "Passeio no Shopping",
-    valor: 150,
-  );
-
-  Despesas desp4 = new Despesas(
-    descricao: "Lanche da tarde",
-    valor: 150,
-  );
-
-  Despesas desp5 = new Despesas(
-    descricao: "Almoço",
-    valor: 150,
-  );
-
-  Despesas desp6 = Despesas(descricao: "Plano de saúde do filho",
-    valor: 150,);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,24 +49,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   child: Column(
                     children: [
-                      CardDespesas(
-                        despesa: desp1,
-                      ),
-                      CardDespesas(
-                        despesa: desp2,
-                      ),
-                      CardDespesas(
-                        despesa: desp3,
-                      ),
-                      CardDespesas(
-                        despesa: desp4,
-                      ),
-                      CardDespesas(
-                        despesa: desp5,
-                      ),
-                      CardDespesas(
-                        despesa: desp6,
-                      ),
+                      // Aqui serão adicionados as despesas por meio do listview.builder
                     ],
                   ),
                 ),

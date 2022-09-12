@@ -54,7 +54,7 @@ class _CardDespesasState extends State<CardDespesas> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          despesas.descricao,
+                          "oi",
                           style: const TextStyle(
                               fontSize: 20, fontWeight: FontWeight.w500),
                         )
