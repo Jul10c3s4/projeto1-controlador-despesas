@@ -14,6 +14,9 @@ class AddDespesa extends StatefulWidget {
 class _AddDespesaState extends State<AddDespesa> {
   final dropValue = ValueNotifier('');
   final dropOpcoes = ['Casa', 'Saúde', 'Educação', "Lazer", "Diversão"];
+  TextEditingController _descricaoController = TextEditingController();
+  TextEditingController _valorController = TextEditingController();
+
 
   late Despesas despesas;
 
@@ -30,9 +33,6 @@ class _AddDespesaState extends State<AddDespesa> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(onPressed: (){
-          Navigator.pushReplacementNamed(context, '/homepage');
-        }, icon: Icon(Icons.arrow_back)),
         title: Text(
           "Adicionar Despesa",
           style: TextStyle(
@@ -68,6 +68,7 @@ class _AddDespesaState extends State<AddDespesa> {
                         borderRadius: BorderRadius.circular(6),
                         color: Color(0xFFFFFAEF)),
                     child: TextField(
+                      controller: _descricaoController,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: 'Conta de luz',
@@ -107,8 +108,8 @@ class _AddDespesaState extends State<AddDespesa> {
                               ),
                             ),
                             value: (value.isEmpty) ? null : value,
-                            onChanged: (escolha) =>
-                                dropValue.value = escolha.toString(),
+                            onChanged: (escolha) {print(value);
+                                dropValue.value = escolha.toString();},
                             items: dropOpcoes
                                 .map(
                                   (opcao) => DropdownMenuItem(
@@ -146,6 +147,7 @@ class _AddDespesaState extends State<AddDespesa> {
                         borderRadius: BorderRadius.circular(6),
                         color: Color(0xFFFFFAEF)),
                     child: TextField(
+                      controller: _valorController,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: 'Conta de luz',
