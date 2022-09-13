@@ -16,7 +16,7 @@ class CardDespesas extends StatefulWidget {
 }
 
 class _CardDespesasState extends State<CardDespesas> {
-  List<Despesas> despesas => widget.despesa;
+  Despesas get despesas => widget.despesa;
   
   @override
   Widget build(BuildContext context) {
@@ -74,7 +74,7 @@ class _CardDespesasState extends State<CardDespesas> {
                           width: 5,
                         ),
                         Text(
-                          "${despesa}",
+                          "fdf",
                           style: const TextStyle(
                               fontSize: 20, fontWeight: FontWeight.w500),
                         )

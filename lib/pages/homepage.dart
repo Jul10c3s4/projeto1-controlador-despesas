@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
+import 'adicionardespesa.dart';
+
 enum OrderOptions {orderaz, orderza}
 
 class HomePage extends StatefulWidget {
@@ -15,6 +17,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int indexselected = 0;
+  List<Despesas> despesas = [];
 
   @override
   Widget build(BuildContext context) {
@@ -53,28 +56,12 @@ class _HomePageState extends State<HomePage> {
           size: 20,
         ),
       ),
-      body: Column(
-        children: [
-          SizedBox(
-            height: 20,
-          ),
-          Expanded(
-            child: ListView(
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 10,
-                  ),
-                  child: Column(
-                    children: [
-                      // Aqui serão adicionados as despesas por meio do listview.builder
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+      body: ListView.builder(
+        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 50),
+        itemCount: despesas.length,
+        itemBuilder: (context, index){
+          return AddDespesa();
+        },
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Color(0xFF373737),

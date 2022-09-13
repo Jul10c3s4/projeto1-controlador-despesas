@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
+  //parei no minuto 31
   runApp(const MyApp());
 }
 

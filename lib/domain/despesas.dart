@@ -6,5 +6,10 @@ class Despesas {
   DateTime? data;
   bool status = false;
 
-  //Criar construtor
+/*Despesas({
+  required this.descricao,
+  required this.valor,
+  required this.data,
+  required this.status,
+});*/
 }
