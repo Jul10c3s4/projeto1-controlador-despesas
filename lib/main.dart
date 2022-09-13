@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
         Locale("pt", "BR")
       ],
       debugShowCheckedModeBanner: false,
-      initialRoute: "/add_despesa",
+      initialRoute: "/homepage",
       routes: <String, WidgetBuilder>{
         '/homepage':(context) => const HomePage(),
         '/splash': (context) => const SplashSreen(rota: '/homepage'),

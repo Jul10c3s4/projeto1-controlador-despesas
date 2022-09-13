@@ -6,5 +6,5 @@ class Despesas {
   DateTime? data;
   bool status = false;
 
-  get dateText => this.data;
+  //Criar construtor
 }

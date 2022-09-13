@@ -8,14 +8,16 @@ import 'package:intl/intl.dart';
 
 class CardDespesas extends StatefulWidget {
   final Despesas despesa;
-  const CardDespesas({super.key, required this.despesa});
+  final int index;
+  const CardDespesas({super.key, required this.despesa, required this.index});
 
   @override
   State<CardDespesas> createState() => _CardDespesasState();
 }
 
 class _CardDespesasState extends State<CardDespesas> {
-  Despesas get despesas => widget.despesa;
+  List<Despesas> despesas => widget.despesa;
+  
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -72,7 +74,7 @@ class _CardDespesasState extends State<CardDespesas> {
                           width: 5,
                         ),
                         Text(
-                          "${despesas.valor}",
+                          "${despesa}",
                           style: const TextStyle(
                               fontSize: 20, fontWeight: FontWeight.w500),
                         )

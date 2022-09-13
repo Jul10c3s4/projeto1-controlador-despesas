@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
+enum OrderOptions {orderaz, orderza}
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -25,10 +27,26 @@ class _HomePageState extends State<HomePage> {
           style: TextStyle(
               color: Colors.white, fontSize: 25, fontWeight: FontWeight.w800),
         ),
+        actions: [
+          //No PopupMenuButton cria-se botões com opções 
+          PopupMenuButton<OrderOptions>(
+            itemBuilder: (context) => <PopupMenuEntry<OrderOptions>>[
+              const PopupMenuItem<OrderOptions>(
+                value: OrderOptions.orderaz,
+                child: Text("Ordenar de A-Z")),
+
+            const PopupMenuItem<OrderOptions>(
+                value: OrderOptions.orderza,
+                child: Text("Ordenar de Z-A"))
+            ],
+            ),
+        ],
       ),
       backgroundColor: const Color(0xFFF6D656),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushReplacementNamed(context, "/add_despesa");
+        },
         backgroundColor: Color(0xFF373737),
         child: Icon(
           Icons.add,

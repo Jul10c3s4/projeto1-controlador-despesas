@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 
 class AddDespesa extends StatefulWidget {
   final Despesas? despesa;
-  const AddDespesa({Key? key, this.despesa}) : super(key: key);
+  const AddDespesa(int length, {Key? key, this.despesa}) : super(key: key);
 
   @override
   State<AddDespesa> createState() => _AddDespesaState();
@@ -14,7 +14,7 @@ class AddDespesa extends StatefulWidget {
 class _AddDespesaState extends State<AddDespesa> {
   final dropValue = ValueNotifier('');
   final dropOpcoes = ['Casa', 'Saúde', 'Educação', "Lazer", "Diversão"];
-
+  List<String> despesaList = [];
   late Despesas despesas;
 
   void initState() {
@@ -30,6 +30,11 @@ class _AddDespesaState extends State<AddDespesa> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pushReplacementNamed(context, '/homepage');
+            },
+            icon: Icon(Icons.arrow_back)),
         title: Text(
           "Adicionar Despesa",
           style: TextStyle(
@@ -39,57 +44,60 @@ class _AddDespesaState extends State<AddDespesa> {
         centerTitle: true,
       ),
       backgroundColor: Color(0xFFF3D16A),
-      body: Padding(
+      body: ListView.builder(
+        itemCount: despesaList.length,
+        itemBuilder: (context, index){
+          return AddDespesa(index);
+        },
         padding: EdgeInsets.symmetric(vertical: 80, horizontal: 20),
-        child: ListView(
-          children: [
-            Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Descrição da Despesa: ',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                      ),
+        children: [
+          Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    'Descrição da Despesa: ',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
                     ),
-                  ],
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(6),
-                        color: Color(0xFFFFFAEF)),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: 'Conta de luz',
-                      ),
-                    )),
-                SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Tipo de Despesa: ',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                      ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(6),
+                      color: Color(0xFFFFFAEF)),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'Conta de luz',
                     ),
-                    ValueListenableBuilder(
-                        valueListenable: dropValue,
-                        builder: (BuildContext context, String value, _) {
-                          return SizedBox(
-                            width: 120,
-                            child: DropdownButtonFormField(
-                              isExpanded: true,
+                  )),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Tipo de Despesa: ',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  ValueListenableBuilder(
+                      valueListenable: dropValue,
+                      builder: (BuildContext context, String value, _) {
+                        return SizedBox(
+                          width: 120,
+                          child: DropdownButtonFormField(
+                            isExpanded: true,
                             //para mudar o icone
                             //icon: const Icon(Icons.),
                             decoration: InputDecoration(
@@ -115,72 +123,73 @@ class _AddDespesaState extends State<AddDespesa> {
                                 )
                                 .toList(),
                           ),
-                          );
-                          
-                        })
-                  ],
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Valor:',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                      ),
+                        );
+                      })
+                ],
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    'Valor:',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
                     ),
-                  ],
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(6),
-                        color: Color(0xFFFFFAEF)),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: 'Conta de luz',
-                      ),
-                    )),
-                SizedBox(
-                  height: 15,
-                ),
-                Row(
-                  children: [
-                    Text(
-                      "Prazo da despesa: ",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                      ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(6),
+                      color: Color(0xFFFFFAEF)),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'Conta de luz',
                     ),
-                    SizedBox(
-                      width: 40,
+                  )),
+              SizedBox(
+                height: 15,
+              ),
+              Row(
+                children: [
+                  Text(
+                    "Prazo da despesa: ",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
                     ),
-                    IconButton(
-                        onPressed: () async {
-                          despesas.data = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime(2022),
-                            lastDate: DateTime(2024),
-                            locale: Locale("pt", "BR"),
-                          );
-                        },
-                        icon: Icon(Icons.date_range))
-                  ],
-                )
-              ],
-            )
-          ],
-        ),
+                  ),
+                  SizedBox(
+                    width: 40,
+                  ),
+                  IconButton(
+                      onPressed: () async {
+                        despesas.data = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(2022),
+                          lastDate: DateTime(2024),
+                          locale: Locale("pt", "BR"),
+                        );
+                      },
+                      icon: Icon(Icons.date_range))
+                ],
+              )
+            ],
+          )
+        ],
       ),
     );
   }
+ /* Widget _despesaCard(BuildContext context, int index){
+    return
+  }*/
 }
