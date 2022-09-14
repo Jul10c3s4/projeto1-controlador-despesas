@@ -1,4 +1,4 @@
-import 'package:controlador_despesas/pages/homepage.dart';
+import 'package:controlador_despesas/pages/destaque_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';

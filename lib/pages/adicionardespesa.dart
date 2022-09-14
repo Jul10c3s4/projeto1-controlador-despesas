@@ -13,12 +13,22 @@ class AddDespesa extends StatefulWidget {
 
 class _AddDespesaState extends State<AddDespesa> {
   final dropValue = ValueNotifier('');
+
   final dropOpcoes = ['Casa', 'Saúde', 'Educação', "Lazer", "Diversão"];
   TextEditingController _descricaoController = TextEditingController();
   TextEditingController _valorController = TextEditingController();
 
+  final _descriptionFocus = FocusNode();
+
+  //Essa variável serve para verificar se a despesa já existe no banco, caso já exista
+  //o usuário poderá modifcar os dados
+  bool _userEdited = false;
+
+  late Despesas _editedDespesas;
+
 
   late Despesas despesas;
+  DateTime? now;
 
   void initState() {
     super.initState();
@@ -34,7 +44,7 @@ class _AddDespesaState extends State<AddDespesa> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Adicionar Despesa",
+          /*_editedDespesas.descricao ??*/ "Nova Despesa",
           style: TextStyle(
               color: Colors.white, fontSize: 25, fontWeight: FontWeight.w800),
         ),
@@ -44,9 +54,10 @@ class _AddDespesaState extends State<AddDespesa> {
       backgroundColor: Color(0xFFF3D16A),
       body: Padding(
         padding: EdgeInsets.symmetric(vertical: 80, horizontal: 20),
-        child: ListView(
-          children: [
+        child: SingleChildScrollView(
+          child:
             Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -69,6 +80,12 @@ class _AddDespesaState extends State<AddDespesa> {
                         color: Color(0xFFFFFAEF)),
                     child: TextField(
                       controller: _descricaoController,
+                      onChanged: (text){
+                        _userEdited = true;
+                        _editedDespesas.descricao = text;
+                      },
+                      //serve para focar o textfield ao abrir a tela
+                      focusNode: _descriptionFocus,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: 'Conta de luz',
@@ -108,8 +125,12 @@ class _AddDespesaState extends State<AddDespesa> {
                               ),
                             ),
                             value: (value.isEmpty) ? null : value,
-                            onChanged: (escolha) {print(value);
-                                dropValue.value = escolha.toString();},
+                            onChanged: (escolha) {
+                                dropValue.value = escolha.toString();
+                                print(value);
+                                _userEdited = true;
+                                _editedDespesas.tipoDesp = dropValue.value;
+                                },
                             items: dropOpcoes
                                 .map(
                                   (opcao) => DropdownMenuItem(
@@ -148,6 +169,10 @@ class _AddDespesaState extends State<AddDespesa> {
                         color: Color(0xFFFFFAEF)),
                     child: TextField(
                       controller: _valorController,
+                      onChanged: (text){
+                        _userEdited = true;
+                        _editedDespesas.valor = double.parse(_valorController.text ?? "0");
+                      },
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: 'Conta de luz',
@@ -168,22 +193,56 @@ class _AddDespesaState extends State<AddDespesa> {
                     SizedBox(
                       width: 40,
                     ),
+                    Container(
+                      width: 50,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: Colors.white24,
+                      ),
+                      child: Text(
+                          '${_editedDespesas.data ?? "Data"}',
+                        style: TextStyle(
+                          color: Colors.black54,
+                          fontSize: 18,
+                        ),
+
+                      ),
+                    ),
                     IconButton(
                         onPressed: () async {
-                          despesas.data = await showDatePicker(
+                          now = await showDatePicker(
                             context: context,
                             initialDate: DateTime.now(),
                             firstDate: DateTime(2022),
                             lastDate: DateTime(2024),
                             locale: Locale("pt", "BR"),
                           );
+                          setState(() {
+                            _userEdited = true;
+                            _editedDespesas.data = now;
+                          });
                         },
-                        icon: Icon(Icons.date_range))
+                        icon: Icon(Icons.date_range)),
+                  ],
+                ),
+                SizedBox(height: 10,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(onPressed: (){}, child: Text('Adicionar Despesa',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w800,
+                    ),),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.deepOrangeAccent,
+                      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+                    ),)
                   ],
                 )
               ],
             )
-          ],
         ),
       ),
     );

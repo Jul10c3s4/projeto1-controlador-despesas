@@ -1,6 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:image_picker/image_picker.dart';
+
+import '../domain/user.dart';
 
 class Perfil extends StatefulWidget {
   const Perfil({Key? key}) : super(key: key);
@@ -10,6 +15,9 @@ class Perfil extends StatefulWidget {
 }
 
 class _PerfilState extends State<Perfil> {
+
+  late User _editedUser;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,16 +40,28 @@ class _PerfilState extends State<Perfil> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Container(
-                  width: 100,
-                  height: 100,
+                GestureDetector(
+                  child: Container(
+                  width: 140,
+                  height: 140,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     image: DecorationImage(
-                      image: AssetImage("assets/images/perfil.png"),
+                      image: _editedUser.img == null ? const AssetImage("assets/images/perfil.png") as ImageProvider
+                          : FileImage(File(_editedUser.img.toString())),
                       fit: BoxFit.cover,
-                    )
+                    ),
                   ),
+                  ),
+                  onTap: (){
+                    ImagePicker().pickImage(source: ImageSource.gallery)
+                        .then((file){
+                          if(file == null) return;
+                          setState(() {
+                            _editedUser.img = file.path;
+                          });
+                    });
+                  },
                 )
               ],
             ),

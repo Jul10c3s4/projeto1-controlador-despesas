@@ -1,6 +1,6 @@
 import 'package:controlador_despesas/domain/despesas.dart';
 import 'package:controlador_despesas/pages/adicionardespesa.dart';
-import 'package:controlador_despesas/pages/homepage.dart';
+import 'package:controlador_despesas/pages/destaque_page.dart';
 import 'package:controlador_despesas/pages/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: "/homepage",
       routes: <String, WidgetBuilder>{
-        '/homepage':(context) => const HomePage(),
+        '/homepage':(context) => const DestaquePage(),
         '/splash': (context) => const SplashSreen(rota: '/homepage'),
         '/add_despesa':(context) => const AddDespesa(),
       } 
