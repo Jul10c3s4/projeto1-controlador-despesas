@@ -8,6 +8,9 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:intl/intl.dart';
 import 'adicionardespesa.dart';
+
+enum OrderOptions { orderaz, orderza }
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -20,21 +23,58 @@ class _HomePageState extends State<HomePage> {
   List<Despesas> despesas = [];
 
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color(0xFF373737),
+        centerTitle: true,
+        title: Text(
+          'Despesas',
+          style: TextStyle(
+              color: Colors.white, fontSize: 25, fontWeight: FontWeight.w800),
+        ),
+        actions: [
+          //No PopupMenuButton cria-se botões com opções
+          PopupMenuButton<OrderOptions>(
+            itemBuilder: (context) => <PopupMenuEntry<OrderOptions>>[
+              const PopupMenuItem<OrderOptions>(
+                  value: OrderOptions.orderaz, child: Text("Ordenar de A-Z")),
+              const PopupMenuItem<OrderOptions>(
+                  value: OrderOptions.orderza, child: Text("Ordenar de Z-A"))
+            ],
+          ),
+        ],
+      ),
+      backgroundColor: const Color(0xFFF6D656),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _pageAddDespesa();
+        },
+        backgroundColor: Color(0xFF373737),
+        child: Icon(
+          Icons.add,
+          size: 20,
+        ),
+      ),
+    );
+    ListView.builder(
       padding: EdgeInsets.symmetric(horizontal: 30, vertical: 50),
       itemCount: despesas.length,
-      itemBuilder: (context, index){
+      itemBuilder: (context, index) {
         return _despesaCard(context, index);
       },
     );
   }
 
-  Widget _despesaCard(BuildContext context, int index){
+  void _pageAddDespesa({Despesas? despesa}) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => AddDespesa(despesa: despesa)));
+  }
+
+  Widget _despesaCard(BuildContext context, int index) {
     return Container(
       decoration: BoxDecoration(
           color: const Color(0xFFFFFAEF),
-          borderRadius: BorderRadius.circular(15)
-      ),
+          borderRadius: BorderRadius.circular(15)),
       child: Wrap(
         children: [
           Padding(
@@ -53,15 +93,21 @@ class _HomePageState extends State<HomePage> {
                     )
                   ],
                 ),
-                SizedBox(height: 5,),
+                SizedBox(
+                  height: 5,
+                ),
                 //Data
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('Prazo: ',
+                    Text(
+                      'Prazo: ',
                       style: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.w500),),
-                    SizedBox(width: 10,),
+                          fontSize: 20, fontWeight: FontWeight.w500),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
                     Text(
                       '${DateFormat('dd/MM/yyyy').format(despesas[index].dataText)}',
                       style: const TextStyle(
@@ -69,15 +115,17 @@ class _HomePageState extends State<HomePage> {
                     )
                   ],
                 ),
-                SizedBox(height: 5,),
+                SizedBox(
+                  height: 5,
+                ),
                 //valor
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text('Valor: ',
-                      style: TextStyle(
-                          fontSize: 20
-                      ),),
+                    const Text(
+                      'Valor: ',
+                      style: TextStyle(fontSize: 20),
+                    ),
                     SizedBox(
                       width: 5,
                     ),
@@ -97,7 +145,9 @@ class _HomePageState extends State<HomePage> {
                         Text(DateFormat('dd/MM/yyyy').format(despesas.dateText)),
                       ],
                     ),*/
-                SizedBox(height: 5,),
+                SizedBox(
+                  height: 5,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -117,7 +167,8 @@ class _HomePageState extends State<HomePage> {
                       ),
                       style: TextButton.styleFrom(
                           backgroundColor: Colors.deepOrangeAccent,
-                          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 60)),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 20, horizontal: 60)),
                     ),
                   ],
                 ),

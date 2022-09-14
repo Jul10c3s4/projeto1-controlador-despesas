@@ -8,8 +8,6 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:intl/intl.dart';
 import 'adicionardespesa.dart';
 
-enum OrderOptions {orderaz, orderza}
-
 class DestaquePage extends StatefulWidget {
   const DestaquePage({super.key});
 
@@ -29,40 +27,6 @@ class _DestaquePageState extends State<DestaquePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color(0xFF373737),
-        centerTitle: true,
-        title: Text(
-          'Despesas',
-          style: TextStyle(
-              color: Colors.white, fontSize: 25, fontWeight: FontWeight.w800),
-        ),
-        actions: [
-          //No PopupMenuButton cria-se botões com opções 
-          PopupMenuButton<OrderOptions>(
-            itemBuilder: (context) => <PopupMenuEntry<OrderOptions>>[
-              const PopupMenuItem<OrderOptions>(
-                value: OrderOptions.orderaz,
-                child: Text("Ordenar de A-Z")),
-
-            const PopupMenuItem<OrderOptions>(
-                value: OrderOptions.orderza,
-                child: Text("Ordenar de Z-A"))
-            ],
-            ),
-        ],
-      ),
-      backgroundColor: const Color(0xFFF6D656),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _pageAddDespesa();
-        },
-        backgroundColor: Color(0xFF373737),
-        child: Icon(
-          Icons.add,
-          size: 20,
-        ),
-      ),
       body: pages[indexselected],
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Color(0xFF373737),
@@ -85,23 +49,20 @@ class _DestaquePageState extends State<DestaquePage> {
             icon: Icon(Icons.account_circle),
             label: 'perfil',
           ),
-            BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: Icon(Icons.library_books),
             label: 'Despesas',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.calculate),
-              label: 'Estatíticas',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.history),
-              label: 'Histórico',
-            ),
-          ],
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.calculate),
+            label: 'Estatíticas',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.history),
+            label: 'Histórico',
+          ),
+        ],
       ),
     );
-  }
-  void _pageAddDespesa({Despesas? despesa}){
-    Navigator.push(context, MaterialPageRoute(builder: (context) => AddDespesa(despesa: despesa)));
   }
 }

@@ -12,7 +12,7 @@ class AddDespesa extends StatefulWidget {
 }
 
 class _AddDespesaState extends State<AddDespesa> {
-  final dropValue = ValueNotifier('');
+  final _dropValue = ValueNotifier('');
 
   final dropOpcoes = ['Casa', 'Saúde', 'Educação', "Lazer", "Diversão"];
   TextEditingController _descricaoController = TextEditingController();
@@ -26,37 +26,42 @@ class _AddDespesaState extends State<AddDespesa> {
 
   late Despesas _editedDespesas;
 
-
-  late Despesas despesas;
-  DateTime? now;
+  DateTime? _now;
 
   void initState() {
     super.initState();
+
     if (widget.despesa == null) {
-      despesas = Despesas();
+      _editedDespesas = Despesas();
     } else {
-      despesas = widget.despesa!;
+      _editedDespesas = Despesas.fromMap(widget.despesa!.toMap());
+      _descricaoController.text = _editedDespesas.descricao!;
+      _valorController.text = _editedDespesas.valor!.toString();
+      _now = _editedDespesas.data!;
+      _dropValue.value = _editedDespesas.tipoDesp!;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          /*_editedDespesas.descricao ??*/ "Nova Despesa",
-          style: TextStyle(
-              color: Colors.white, fontSize: 25, fontWeight: FontWeight.w800),
-        ),
-        backgroundColor: Color(0xFF373737),
-        centerTitle: true,
-      ),
-      backgroundColor: Color(0xFFF3D16A),
-      body: Padding(
-        padding: EdgeInsets.symmetric(vertical: 80, horizontal: 20),
-        child: SingleChildScrollView(
-          child:
-            Column(
+    return WillPopScope(
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text(
+              /*_editedDespesas.descricao ??*/ "Nova Despesa",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 25,
+                  fontWeight: FontWeight.w800),
+            ),
+            backgroundColor: Color(0xFF373737),
+            centerTitle: true,
+          ),
+          backgroundColor: Color(0xFFF3D16A),
+          body: Padding(
+            padding: EdgeInsets.symmetric(vertical: 80, horizontal: 20),
+            child: SingleChildScrollView(
+                child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Row(
@@ -80,7 +85,7 @@ class _AddDespesaState extends State<AddDespesa> {
                         color: Color(0xFFFFFAEF)),
                     child: TextField(
                       controller: _descricaoController,
-                      onChanged: (text){
+                      onChanged: (text) {
                         _userEdited = true;
                         _editedDespesas.descricao = text;
                       },
@@ -105,43 +110,42 @@ class _AddDespesaState extends State<AddDespesa> {
                       ),
                     ),
                     ValueListenableBuilder(
-                        valueListenable: dropValue,
+                        valueListenable: _dropValue,
                         builder: (BuildContext context, String value, _) {
                           return SizedBox(
                             width: 120,
                             child: DropdownButtonFormField(
                               isExpanded: true,
-                            //para mudar o icone
-                            //icon: const Icon(Icons.),
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
+                              //para mudar o icone
+                              //icon: const Icon(Icons.),
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
                               ),
-                            ),
-                            hint: Text(
-                              'casa',
-                              style: TextStyle(
-                                color: Colors.grey,
+                              hint: Text(
+                                'casa',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                ),
                               ),
-                            ),
-                            value: (value.isEmpty) ? null : value,
-                            onChanged: (escolha) {
-                                dropValue.value = escolha.toString();
+                              value: (value.isEmpty) ? null : value,
+                              onChanged: (escolha) {
+                                _dropValue.value = escolha.toString();
                                 print(value);
                                 _userEdited = true;
-                                _editedDespesas.tipoDesp = dropValue.value;
-                                },
-                            items: dropOpcoes
-                                .map(
-                                  (opcao) => DropdownMenuItem(
-                                    value: opcao,
-                                    child: Text(opcao),
-                                  ),
-                                )
-                                .toList(),
-                          ),
+                                _editedDespesas.tipoDesp = _dropValue.value;
+                              },
+                              items: dropOpcoes
+                                  .map(
+                                    (opcao) => DropdownMenuItem(
+                                      value: opcao,
+                                      child: Text(opcao),
+                                    ),
+                                  )
+                                  .toList(),
+                            ),
                           );
-                          
                         })
                   ],
                 ),
@@ -169,9 +173,10 @@ class _AddDespesaState extends State<AddDespesa> {
                         color: Color(0xFFFFFAEF)),
                     child: TextField(
                       controller: _valorController,
-                      onChanged: (text){
+                      onChanged: (text) {
                         _userEdited = true;
-                        _editedDespesas.valor = double.parse(_valorController.text ?? "0");
+                        _editedDespesas.valor =
+                            double.parse(_valorController.text ?? "0");
                       },
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
@@ -200,51 +205,115 @@ class _AddDespesaState extends State<AddDespesa> {
                         color: Colors.white24,
                       ),
                       child: Text(
-                          '${_editedDespesas.data ?? "Data"}',
+                        '${_editedDespesas.data ?? "Data"}',
                         style: TextStyle(
                           color: Colors.black54,
                           fontSize: 18,
                         ),
-
                       ),
                     ),
                     IconButton(
                         onPressed: () async {
-                          now = await showDatePicker(
+                          await showDatePicker(
                             context: context,
                             initialDate: DateTime.now(),
                             firstDate: DateTime(2022),
                             lastDate: DateTime(2024),
                             locale: Locale("pt", "BR"),
+                            currentDate: _now,
                           );
                           setState(() {
                             _userEdited = true;
-                            _editedDespesas.data = now;
+                            _editedDespesas.data = _now;
                           });
                         },
                         icon: Icon(Icons.date_range)),
                   ],
                 ),
-                SizedBox(height: 10,),
+                SizedBox(
+                  height: 10,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    TextButton(onPressed: (){}, child: Text('Adicionar Despesa',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w800,
-                    ),),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.deepOrangeAccent,
-                      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
-                    ),)
+                    TextButton(
+                      onPressed: () {
+                        salvarDespesa();
+                      },
+                      child: Text(
+                        'Adicionar Despesa',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.deepOrangeAccent,
+                        padding:
+                            EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+                      ),
+                    )
                   ],
                 )
               ],
-            )
+            )),
+          ),
         ),
-      ),
-    );
+        onWillPop: _quandosair);
+  }
+
+  Future<bool> _quandosair() {
+    if (_userEdited) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('Descartar alterações ?'),
+              content: const Text(
+                  'Se você sair as alterações feitas serão perdidas!'),
+              actions: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    'Cancelar',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    'Sair',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.lightBlue),
+                )
+              ],
+            );
+          });
+      return Future.value(false);
+    } else {
+      return Future.value(true);
+    }
+  }
+
+  void salvarDespesa() {
+    if (_editedDespesas.descricao != null &&
+        _editedDespesas.descricao!.isNotEmpty) {
+      Navigator.pop(context, _editedDespesas);
+    } else {
+      FocusScope.of(context).requestFocus(_descriptionFocus);
+    }
   }
 }
