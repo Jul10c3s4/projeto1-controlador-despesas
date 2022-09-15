@@ -1,5 +1,5 @@
-const String ContactTable = "contactTable";
-const String idColumn = "idColumn";
+const String perfilTable = "perfilTable";
+const String idPerfilColumn = "idColumn";
 const String nameColumn = "nameColumn";
 const String imgColumn = "imgColumn";
 
@@ -10,7 +10,7 @@ class User {
   User();
 
   User.fromMap(Map<String, dynamic> map)
-      : id = map[idColumn],
+      : id = map[idPerfilColumn],
         name = map[nameColumn],
         img = map[imgColumn];
 
@@ -18,7 +18,7 @@ class User {
     Map<dynamic, dynamic> map = {nameColumn: name, imgColumn: name};
 
     if (id != null) {
-      map[idColumn] = id;
+      map[idPerfilColumn] = id;
     }
     return map;
   }

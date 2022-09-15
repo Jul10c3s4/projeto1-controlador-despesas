@@ -78,6 +78,16 @@ class _PerfilState extends State<Perfil> {
                     });
                   });
                 },
+                onLongPress: (){
+                  ImagePicker()
+                      .pickImage(source: ImageSource.camera)
+                      .then((file) {
+                        if(file == null) return;
+                        setState(() {
+                          _editedUser.img = file.path;
+                        });
+                  });
+                },
               )
               /*Row(
                 children: [

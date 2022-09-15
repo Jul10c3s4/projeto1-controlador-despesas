@@ -1,12 +1,13 @@
 import 'package:flutter/cupertino.dart';
 
-const String ContactTable = "contactTable";
+const String despesaTable = "despesaTable";
 const String idColumn = "idColumn";
 const String descricaoColumn = "descricaoColumn";
 const String valorColumn = "ValorColumn";
+const String tipoDespColumn = "tipoDespColumn";
 const String dataColumn = "dataColumn";
 const String statusColumn = "statusColumn";
-const String tipoDespColumn = "tipoDespColumn";
+
 
 class Despesas {
   int? id;
@@ -29,9 +30,9 @@ class Despesas {
   status = map[statusColumn];
 
   //O toMap pega o widget Despesas e tranforma em um map e salva no banco de dados
-  Map<dynamic, dynamic> toMap()  {
+  Map<String, dynamic> toMap()  {
 
-    Map<dynamic, dynamic> map = {
+    Map<String, dynamic> map = {
 
       descricaoColumn: descricao,
       valorColumn: valor,
