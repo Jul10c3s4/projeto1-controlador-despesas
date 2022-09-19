@@ -37,7 +37,6 @@ class _AddDespesaState extends State<AddDespesa> {
       _editedDespesas = Despesas.fromMap(widget.despesa!.toMap());
       _descricaoController.text = _editedDespesas.descricao!;
       _valorController.text = _editedDespesas.valor!.toString();
-      _now = _editedDespesas.data!;
       _dropValue.value = _editedDespesas.tipoDesp!;
     }
   }
@@ -172,11 +171,12 @@ class _AddDespesaState extends State<AddDespesa> {
                         borderRadius: BorderRadius.circular(6),
                         color: Color(0xFFFFFAEF)),
                     child: TextField(
+                      keyboardType: TextInputType.number,
                       controller: _valorController,
                       onChanged: (text) {
                         _userEdited = true;
                         _editedDespesas.valor =
-                            double.parse(_valorController.text ?? "0");
+                            int.parse(_valorController.text ?? "0");
                       },
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
@@ -195,41 +195,52 @@ class _AddDespesaState extends State<AddDespesa> {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
+                  ]),
                     SizedBox(
-                      width: 40,
+                      height: 5,
                     ),
-                    Container(
-                      width: 50,
+                    Row(
+                      children: [
+                        Container(
+                          height: 20,
+                      width: 110,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
                         color: Colors.white24,
                       ),
                       child: Text(
-                        '${_editedDespesas.data ?? "Data"}',
+                        '${_editedDespesas.dataText ?? "Data"}',
                         style: TextStyle(
                           color: Colors.black54,
                           fontSize: 18,
                         ),
                       ),
                     ),
+                    SizedBox(width: 5,),
                     IconButton(
                         onPressed: () async {
-                          await showDatePicker(
+                          /*(text) {
+                        _userEdited = true;
+                        _editedDespesas.valor =
+                            int.parse(_valorController.text ?? "0");
+                      }, */
+                          _now = await showDatePicker(
                             context: context,
                             initialDate: DateTime.now(),
                             firstDate: DateTime(2022),
                             lastDate: DateTime(2024),
                             locale: Locale("pt", "BR"),
-                            currentDate: _now,
                           );
                           setState(() {
                             _userEdited = true;
-                            _editedDespesas.data = _now;
+                            print(_now);
+                            //'${DateFormat('dd/MM/yyyy').format(_editedDespesas.dataText ?? DateTime.now())}',
+                            _editedDespesas.data = DateFormat('dd/MM/yyyy').format(_now!) as String;
                           });
                         },
                         icon: Icon(Icons.date_range)),
-                  ],
-                ),
+                      ],
+                    ),
                 SizedBox(
                   height: 10,
                 ),

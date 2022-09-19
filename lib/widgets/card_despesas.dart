@@ -41,15 +41,7 @@ class _CardDespesasState extends State<CardDespesas> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        IconButton(onPressed: () async{
-                          despesas.data = await showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(2022),
-                              lastDate: DateTime(2024),
-                              locale: Locale("pt", "BR"),
-                          );
-                        }, icon: Icon(Icons.date_range))
+                        
                       ],
                     ),
                     Row(
@@ -96,7 +88,7 @@ class _CardDespesasState extends State<CardDespesas> {
                         TextButton(
                           onPressed: () {
                             setState(() {
-                              despesas.status = true;
+                              despesas.status = "true";
                               print(despesas.data);
                             });
                           },

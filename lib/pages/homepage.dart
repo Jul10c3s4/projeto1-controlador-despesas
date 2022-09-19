@@ -1,3 +1,4 @@
+import 'package:controlador_despesas/domain/despesa_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:controlador_despesas/domain/despesas.dart';
 import 'package:controlador_despesas/pages/homepage.dart';
@@ -19,9 +20,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  @override
+
+  DespesaHelper helper = DespesaHelper();
   List<Despesas> despesas = [];
 
+  void initState(){
+    super.initState();
+    _getAllDespesas();
+  }
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -55,23 +62,82 @@ class _HomePageState extends State<HomePage> {
           size: 20,
         ),
       ),
-    );
-    ListView.builder(
+      body: ListView.builder(
       padding: EdgeInsets.symmetric(horizontal: 30, vertical: 50),
       itemCount: despesas.length,
       itemBuilder: (context, index) {
         return _despesaCard(context, index);
       },
+    ),
     );
   }
 
-  void _pageAddDespesa({Despesas? despesa}) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => AddDespesa(despesa: despesa)));
+  void _pageAddDespesa({Despesas? despesa}) async {
+    final recDespesas = await Navigator.push(context,MaterialPageRoute(builder: (context) => AddDespesa(despesa: despesa)));
+    if(recDespesas != null){
+      if(despesa != null){
+        await helper.updateDespesa(recDespesas);
+      }else{
+        await helper.saveDespesa(recDespesas);
+      }
+      _getAllDespesas();
+    }
+  }
+
+  void _showOptions(BuildContext context,int index){
+    showModalBottomSheet(context: context, builder: (context){
+      return BottomSheet(onClosing: (){}, builder: (context){
+        return Container(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(padding: const EdgeInsets.all(10),
+              child: ElevatedButton(
+                onPressed: (){
+                  helper.deletaDespesa(despesas[index].id!.toInt());
+                  setState(() {
+                    despesas.removeAt(index);
+                    Navigator.pop(context);
+                  });
+                },
+                child: const Text('Excluir Despesa',
+                style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                ), 
+                ),),
+              Padding(padding: const EdgeInsets.all(10),
+              child: ElevatedButton(
+                onPressed: (){
+                  Navigator.pop(context);
+                  _pageAddDespesa(despesa: despesas[index]);
+                },
+                child: const Text('Editar Despesa',
+                style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                ), 
+                ),),  
+            ],
+          ),
+        );
+      });
+    });
   }
 
   Widget _despesaCard(BuildContext context, int index) {
-    return Container(
+    return Column(
+      children: [
+        Container(
       decoration: BoxDecoration(
           color: const Color(0xFFFFFAEF),
           borderRadius: BorderRadius.circular(15)),
@@ -109,7 +175,7 @@ class _HomePageState extends State<HomePage> {
                       width: 10,
                     ),
                     Text(
-                      '${DateFormat('dd/MM/yyyy').format(despesas[index].dataText)}',
+                      '${despesas[index].dataText}',
                       style: const TextStyle(
                           fontSize: 20, fontWeight: FontWeight.w500),
                     )
@@ -154,7 +220,7 @@ class _HomePageState extends State<HomePage> {
                     TextButton(
                       onPressed: () {
                         setState(() {
-                          despesas[index].status = true;
+                          despesas[index].status = "true";
                         });
                       },
                       child: const Text(
@@ -180,6 +246,35 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
+    ),
+    SizedBox(height: 20,)
+      ],
     );
+  }
+  void _getAllDespesas(){
+    helper.getAllDespesas().then((list) {
+      setState(() {
+        despesas = list;
+      });
+    });
+  }
+
+  void _orderList(OrderOptions result){
+    switch(result){
+      case OrderOptions.orderaz:
+      setState(() {
+        despesas.sort((a, b){
+        return a.descricao!.toLowerCase().compareTo(b.descricao!.toLowerCase());
+      });
+      });
+      break;
+      case OrderOptions.orderza:
+      setState(() {
+        despesas.sort((a, b){
+        return b.descricao!.toLowerCase().compareTo(a.descricao!.toLowerCase());
+      });
+      });
+      break;
+    }
   }
 }

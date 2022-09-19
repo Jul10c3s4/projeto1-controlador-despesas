@@ -33,8 +33,7 @@ Future<Database> initDb() async{
 
     //cria a tabela
   await db.execute(
-    'CREATE TABLE $despesaTable($idColumn INTEGER PRYMARY KEY, $descricaoColumn TEXT, $valorColumn INTEGER, $tipoDespColumn TEXT, $dataColumn TEXT, $statusColumn TEXT'
-  );
+    'CREATE TABLE $despesaTable($idColumn INTEGER PRYMARY KEY, $descricaoColumn TEXT, $valorColumn INTEGER, $tipoDespColumn TEXT, $dataColumn TEXT, $statusColumn TEXT)');
   await db.execute('CREATE TABLE $perfilTable($idPerfilColumn INTEGER PRYMARY KEY, $imgColumn TEXT, $nameColumn TEXT)');
   });
 }
