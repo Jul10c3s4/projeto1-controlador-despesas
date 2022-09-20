@@ -29,6 +29,8 @@ Future<Database> initDb() async{
   final path = join(datebasesPath , "despesas.db");
 
   // abre o banco
+  /*caso o banco seja atualizado tem-se que atualizar o banco para o version: 2 e ao invés do oncreate é utilizado o onpgrade e caso se queira voltar a uma versão
+  anterior do banco colocasse a versão anterior e usa-se o downgrade*/
   return await openDatabase(path, version:1, onCreate: (Database db, int newVersion) async {
 
     //cria a tabela
