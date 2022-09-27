@@ -1,4 +1,5 @@
 import 'package:controlador_despesas/domain/despesas.dart';
+import 'package:controlador_despesas/pages/despesas_page.dart';
 import 'package:controlador_despesas/pages/homepage.dart';
 import 'package:controlador_despesas/pages/perfil.dart';
 import 'package:controlador_despesas/widgets/card_despesas.dart';
@@ -21,6 +22,7 @@ class _DestaquePageState extends State<DestaquePage> {
   List pages = [
     const HomePage(),
     const Perfil(),
+    const DespesasPage(),
   ];
   List<Despesas> despesas = [];
 

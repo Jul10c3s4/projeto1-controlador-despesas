@@ -14,7 +14,7 @@ class AddDespesa extends StatefulWidget {
 class _AddDespesaState extends State<AddDespesa> {
   final _dropValue = ValueNotifier('');
 
-  final dropOpcoes = ['Casa', 'Saúde', 'Educação', "Lazer", "Diversão"];
+  final dropOpcoes = ['Casa', 'Saúde', 'Educação', "Trabalho", "Diversão"];
   TextEditingController _descricaoController = TextEditingController();
   TextEditingController _valorController = TextEditingController();
 
@@ -58,11 +58,12 @@ class _AddDespesaState extends State<AddDespesa> {
           ),
           backgroundColor: Color(0xFFF3D16A),
           body: Padding(
-            padding: EdgeInsets.symmetric(vertical: 80, horizontal: 20),
+            padding: EdgeInsets.symmetric( horizontal: 20),
             child: SingleChildScrollView(
                 child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                SizedBox(height: 60,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -186,37 +187,40 @@ class _AddDespesaState extends State<AddDespesa> {
                 SizedBox(
                   height: 15,
                 ),
+                Row(children: [
+                  Text(
+                    "Prazo da despesa: ",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ]),
+                SizedBox(
+                  height: 5,
+                ),
                 Row(
                   children: [
-                    Text(
-                      "Prazo da despesa: ",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ]),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      children: [
-                        Container(
-                          height: 20,
+                    Container(
+                      height: 20,
                       width: 110,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
                         color: Colors.white24,
                       ),
-                      child: Text(
-                        '${_editedDespesas.dataText ?? "Data"}',
-                        style: TextStyle(
-                          color: Colors.black54,
-                          fontSize: 18,
+                      child: Center(
+                        child: Text(
+                          '${_editedDespesas.dataText ?? "Data"}',
+                          style: TextStyle(
+                            color: Colors.black54,
+                            fontSize: 18,
+                          ),
                         ),
                       ),
                     ),
-                    SizedBox(width: 5,),
+                    SizedBox(
+                      width: 5,
+                    ),
                     IconButton(
                         onPressed: () async {
                           /*(text) {
@@ -235,37 +239,32 @@ class _AddDespesaState extends State<AddDespesa> {
                             _userEdited = true;
                             print(_now);
                             //'${DateFormat('dd/MM/yyyy').format(_editedDespesas.dataText ?? DateTime.now())}',
-                            _editedDespesas.data = DateFormat('dd/MM/yyyy').format(_now!) as String;
+                            _editedDespesas.data = DateFormat('dd/MM/yyyy')
+                                .format(_now!) as String;
                           });
                         },
                         icon: Icon(Icons.date_range)),
-                      ],
-                    ),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        salvarDespesa();
-                      },
-                      child: Text(
-                        'Adicionar Despesa',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w800,
-                        ),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.deepOrangeAccent,
-                        padding:
-                            EdgeInsets.symmetric(vertical: 20, horizontal: 30),
-                      ),
-                    )
                   ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                TextButton(
+                  onPressed: () {
+                    salvarDespesa();
+                  },
+                  child: Text(
+                    'Adicionar Despesa',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.deepOrangeAccent,
+                    padding: EdgeInsets.symmetric(vertical: 15,),
+                  ),
                 )
               ],
             )),

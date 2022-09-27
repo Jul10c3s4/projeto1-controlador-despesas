@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         Locale("pt", "BR")
       ],
       debugShowCheckedModeBanner: false,
-      initialRoute: "/splash",
+      initialRoute: "/homepage",
       routes: <String, WidgetBuilder>{
         '/homepage':(context) => const DestaquePage(),
         '/splash': (context) => const SplashSreen(rota: '/homepage'),
