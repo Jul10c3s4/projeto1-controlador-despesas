@@ -26,10 +26,13 @@ class _SubtiposDespesasState extends State<SubtiposDespesas> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(0xFF373737),
           title: Text(
         "Despesas com ${subDespesas[0].tipoDesp.toString() ?? "sub despesas"}",
       )),
+      backgroundColor: const Color(0xFFF6D656),
       body: ListView.builder(
+        padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20 ),
         itemCount: subDespesas.length,
         itemBuilder: (context, index) {
           return _subDespesa(context, index);
@@ -167,17 +170,14 @@ class _SubtiposDespesasState extends State<SubtiposDespesas> {
   void _pegarAllDespesas() {
     print(widget.tipoDespesa);
     helper.getAllDespesas().then((list) {
-      print("1");
       despesas = list;
       for (int i = 0; i < despesas.length; i++) {
         if (widget.tipoDespesa == despesas[i].tipoDesp.toString()) {
-          print("2");
           setState(() {
             subDespesas.add(despesas[i]);
           });
         }
       }
-      print('2');
     });
   }
 }
