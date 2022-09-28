@@ -30,7 +30,6 @@ class MyApp extends StatelessWidget {
         '/splash': (context) => const SplashSreen(rota: '/homepage'),
         '/add_despesa':(context) => const AddDespesa(),
       } 
-       
     );
   }
 }

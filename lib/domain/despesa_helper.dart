@@ -73,7 +73,7 @@ Future<Despesas?> getDespesa(int id) async{
 }
 Future<int> updateStatus(Despesas despesas) async{
   Database? dbDespesa = await db;
-  return await dbDespesa!.update(despesaTable, despesas.toMap(), where: "$idColumn = ?", whereArgs: [despesas.id]);
+  return await dbDespesa!.update(despesaTable, despesas.toMapStatus(),  where: "$idColumn = ?", whereArgs: [despesas.id], );
 }
 
 Future<List<Despesas>> getAllDespesas() async{

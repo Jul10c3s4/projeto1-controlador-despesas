@@ -16,6 +16,7 @@ class Despesas {
   String? tipoDesp;
   String? data;
   String? status = "true";
+  String? statusf = "false";
 
   get dataText => this.data;
   Despesas();
@@ -39,6 +40,18 @@ class Despesas {
       tipoDespColumn: tipoDesp,
       dataColumn: data,
       statusColumn: status
+    };
+
+    if(id!=null){
+      map[idColumn] = id;
+    }
+
+      return map;
+    }
+  Map<String, dynamic> toMapStatus()  {
+
+    Map<String, dynamic> map = {
+      statusColumn: statusf
     };
 
     if(id!=null){

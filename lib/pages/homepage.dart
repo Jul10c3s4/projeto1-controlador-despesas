@@ -22,6 +22,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   DespesaHelper helper = DespesaHelper();
   List<Despesas> despesas = [];
+  List<Despesas> despPedentes = [];
 
   void initState() {
     super.initState();
@@ -276,8 +277,8 @@ class _HomePageState extends State<HomePage> {
                   child:  TextButton(
                     onPressed: () {
                       setState(() {
-                        despesas[index].status = "false";
                         despesas.removeAt(index);
+                        //helper.updateStatus(despesas[index]);
                       });
                     },
                     child: const Text(
@@ -309,9 +310,10 @@ class _HomePageState extends State<HomePage> {
   void _getAllDespesas() {
     helper.getAllDespesas().then((list) {
       setState(() {
-        for(int i = 0; i < list.length; i++){
-          if(list[i].status == "true"){
-            despesas.add(list[i]);
+        despesas = list;
+        for(int i = 0; i < despesas.length; i++){
+          if(despesas[i].status == "true"){
+            despPedentes.add(despesas[i]);
           }
         }
       });
