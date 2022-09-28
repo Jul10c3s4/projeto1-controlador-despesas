@@ -177,11 +177,11 @@ class _AddDespesaState extends State<AddDespesa> {
                       onChanged: (text) {
                         _userEdited = true;
                         _editedDespesas.valor =
-                            int.parse(_valorController.text ?? "0");
+                            double.parse(_valorController.text ?? "0");
                       },
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
-                        hintText: 'Conta de luz',
+                        hintText: '100',
                       ),
                     )),
                 SizedBox(

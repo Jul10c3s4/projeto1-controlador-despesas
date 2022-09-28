@@ -12,10 +12,10 @@ const String statusColumn = "statusColumn";
 class Despesas {
   int? id;
   String? descricao;
-  int? valor;
+  double? valor;
   String? tipoDesp;
   String? data;
-  String? status;
+  String? status = "true";
 
   get dataText => this.data;
   Despesas();

@@ -276,11 +276,12 @@ class _HomePageState extends State<HomePage> {
                   child:  TextButton(
                     onPressed: () {
                       setState(() {
-                        despesas[index].status = "true";
+                        despesas[index].status = "false";
+                        despesas.removeAt(index);
                       });
                     },
                     child: const Text(
-                      'Pagar',
+                      'Paguei',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
@@ -308,7 +309,11 @@ class _HomePageState extends State<HomePage> {
   void _getAllDespesas() {
     helper.getAllDespesas().then((list) {
       setState(() {
-        despesas = list;
+        for(int i = 0; i < list.length; i++){
+          if(list[i].status == "true"){
+            despesas.add(list[i]);
+          }
+        }
       });
     });
   }

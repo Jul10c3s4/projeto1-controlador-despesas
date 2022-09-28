@@ -16,7 +16,7 @@ class _EstatisticasPageState extends State<EstatisticasPage> {
   DespesaHelper helper = DespesaHelper();
   int valorPago = 0;
   int despPendentes = 0;
-  int totalAPagar = 0;
+  double totalAPagar = 0;
 
   @override
   void initState() {
@@ -39,14 +39,15 @@ class _EstatisticasPageState extends State<EstatisticasPage> {
       ),
       backgroundColor: const Color(0xFFF6D656),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 50),
+        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 50),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             ListTile(
+              minVerticalPadding: 12,
               leading: Icon(Icons.monetization_on_rounded,
               color: Colors.amber,
-              size: 40,),
-
+              size: 55,),
               tileColor: Color(0xFFFFFAEF),
               title: Text(
                 "Valor total à pagar: ",
@@ -55,8 +56,51 @@ class _EstatisticasPageState extends State<EstatisticasPage> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              subtitle: Text("$totalAPagar"),
+              subtitle: Center(child: Text("$totalAPagar",
+              style: TextStyle(
+                fontSize: 30,
+                color: Colors.red.shade500
+              ),),)
+            ),
+            ListTile(
+              minVerticalPadding: 12,
+              leading: Icon(Icons.monetization_on_rounded,
+              color: Colors.amber,
+              size: 55,),
+              tileColor: Color(0xFFFFFAEF),
+              title: Text(
+                "Valor total à pagar: ",
+                style: const TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              subtitle: Center(child: Text("$totalAPagar",
+              style: TextStyle(
+                fontSize: 30,
+                color: Colors.red.shade500
+              ),),)
+            ),
+            ListTile(
+              minVerticalPadding: 12,
+              leading: Icon(Icons.monetization_on_rounded,
+              color: Colors.amber,
+              size: 55,),
+              tileColor: Color(0xFFFFFAEF),
+              title: Text(
+                "Valor total Já pagado: ",
+                style: const TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              subtitle: Center(child: Text("$totalAPagar",
+              style: TextStyle(
+                fontSize: 30,
+                color: Colors.red.shade500
+              ),),)
             )
+
           ],
         ),
       ),
@@ -66,8 +110,10 @@ class _EstatisticasPageState extends State<EstatisticasPage> {
   void _getDatas() {
     helper.getAllDespesas().then((list) {
       despesas = list;
-      despesas.forEach((despesas) {
+      setState(() {
+        despesas.forEach((despesas) {
         totalAPagar = totalAPagar + despesas.valor!;
+      });
       });
     });
   }

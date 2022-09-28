@@ -35,7 +35,7 @@ Future<Database> initDb() async{
 
     //cria a tabela
   await db.execute(
-    'CREATE TABLE $despesaTable($idColumn INTEGER PRYMARY KEY, $descricaoColumn TEXT, $valorColumn INTEGER, $tipoDespColumn TEXT, $dataColumn TEXT, $statusColumn TEXT)');
+    'CREATE TABLE $despesaTable($idColumn INTEGER PRYMARY KEY, $descricaoColumn TEXT, $valorColumn DOUBLE, $tipoDespColumn TEXT, $dataColumn TEXT, $statusColumn TEXT)');
   await db.execute('CREATE TABLE $perfilTable($idPerfilColumn INTEGER PRYMARY KEY, $imgColumn TEXT, $nameColumn TEXT)');
   });
 }
@@ -68,6 +68,10 @@ Future<Despesas?> getDespesa(int id) async{
 }
 
   Future<int> updateDespesa(Despesas despesas) async{
+  Database? dbDespesa = await db;
+  return await dbDespesa!.update(despesaTable, despesas.toMap(), where: "$idColumn = ?", whereArgs: [despesas.id]);
+}
+Future<int> updateStatus(Despesas despesas) async{
   Database? dbDespesa = await db;
   return await dbDespesa!.update(despesaTable, despesas.toMap(), where: "$idColumn = ?", whereArgs: [despesas.id]);
 }
